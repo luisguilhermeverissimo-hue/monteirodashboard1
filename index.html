@@ -1036,17 +1036,9 @@ function parseDate(raw) {
 // ============================================================
 // CARGA DE DADOS (fetch ao Google Sheets)
 // ============================================================
-// URLs candidatas — tenta cada uma em ordem até uma funcionar
+// URL de publicação CSV gerada pelo Google Sheets
 const SHEET_URLS = [
-  // GID da aba conforme link de edição
-  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?gid=1927118281&single=true&output=csv',
-  // Primeira aba (gid=0) — caso a publicação tenha gerado outro gid
-  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?gid=0&single=true&output=csv',
-  // Sem gid — exporta a primeira aba publicada
-  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?single=true&output=csv',
-  // Formato export alternativo
-  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/export?format=csv&gid=1927118281',
-  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/export?format=csv',
+  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVc-TI37Cx51sJCdR81d7WJxm8PBu3wV7XG9IsHZGIO2i-PnRLJ2nV35BP_4es-bfGt37FsrIfXwfd/pub?gid=1927118281&single=true&output=csv',
 ];
 
 async function tryFetch(url) {
