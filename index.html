@@ -177,7 +177,7 @@
   .filter-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     flex-wrap: wrap;
     padding: 12px 0;
     border-bottom: 1px solid var(--line);
@@ -194,12 +194,76 @@
     width: 60px;
     flex-shrink: 0;
   }
-  .filter-pills {
+
+  /* ===== DROPDOWNS DE DATA ===== */
+  .date-filter-group {
     display: flex;
+    align-items: center;
+    gap: 8px;
     flex-wrap: wrap;
-    gap: 6px;
     flex: 1;
   }
+  .select-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 10px;
+    color: var(--verde);
+    font-size: 10px;
+    pointer-events: none;
+  }
+  .filter-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    padding: 5px 28px 5px 12px;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.15s, color 0.15s;
+    min-width: 110px;
+  }
+  .filter-select:hover,
+  .filter-select:focus { border-color: var(--verde); color: var(--verde); }
+  .filter-select.active {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: #fff;
+  }
+  .filter-select.active::after { color: #fff; }
+  .date-sep {
+    font-size: 10px;
+    color: var(--ink-mute);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .btn-clear-date {
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-mute);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .btn-clear-date:hover { border-color: var(--verde); color: var(--verde); }
+
+  /* ===== PILLS UF ===== */
+  .filter-pills { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
   .pill {
     background: transparent;
     border: 1px solid var(--line-strong);
@@ -214,12 +278,9 @@
     font-weight: 500;
   }
   .pill:hover { border-color: var(--verde); color: var(--verde); }
-  .pill.active {
-    background: var(--verde);
-    border-color: var(--verde);
-    color: #fff;
-  }
+  .pill.active { background: var(--verde); border-color: var(--verde); color: #fff; }
   .pill.pill-all { border-color: var(--ink-mute); }
+
   .filter-summary {
     margin-left: auto;
     font-family: 'Jost', sans-serif;
@@ -304,7 +365,6 @@
 
   /* ===== CHART CARDS ===== */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-  .grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; margin-bottom: 18px; }
   .grid-full { margin-bottom: 18px; }
 
   .chart-card {
@@ -315,7 +375,6 @@
     transition: box-shadow 0.2s;
   }
   .chart-card:hover { box-shadow: var(--shadow-hover); }
-  .chart-card.span2 { grid-column: 1 / -1; }
 
   .chart-title {
     font-family: 'Jost', sans-serif;
@@ -353,7 +412,6 @@
     white-space: nowrap;
   }
   .chart-wrap { position: relative; height: 220px; }
-  .chart-wrap.tall { height: 280px; }
   .chart-wrap.short { height: 180px; }
 
   /* ===== BARRAS HORIZONTAIS ===== */
@@ -420,7 +478,7 @@
   .cat-name {
     font-size: 12px;
     color: var(--ink-soft);
-    width: 160px;
+    width: 200px;
     flex-shrink: 0;
   }
   .cat-name.bold { font-weight: 600; color: var(--ink); }
@@ -428,38 +486,6 @@
   .cat-fill { height: 100%; border-radius: 2px; background: var(--verde); transition: width 0.7s ease; }
   .cat-fill.secondary { background: var(--verde-acento); opacity: 0.75; }
   .cat-count { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; color: var(--verde); width: 24px; text-align: right; flex-shrink: 0; }
-
-  /* ===== RECORRENTES ===== */
-  .rec-table { width: 100%; border-collapse: collapse; }
-  .rec-table thead tr { border-bottom: 1px solid var(--line); }
-  .rec-table th {
-    font-family: 'Jost', sans-serif;
-    font-size: 9px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--ink-mute);
-    padding: 0 0 10px;
-    text-align: left;
-  }
-  .rec-table th:last-child { text-align: right; }
-  .rec-table tbody tr { border-bottom: 1px solid rgba(0,0,0,0.04); transition: background 0.1s; }
-  .rec-table tbody tr:hover { background: var(--verde-soft); }
-  .rec-table td { font-size: 12px; color: var(--ink-soft); padding: 9px 0; }
-  .rec-table td:last-child { text-align: right; }
-  .td-rank { color: var(--ink-mute); font-family: 'Jost', sans-serif; font-size: 10px; width: 24px; }
-  .td-nome { font-weight: 500; color: var(--ink); text-transform: capitalize; }
-  .badge-ret {
-    display: inline-block;
-    background: var(--verde-badge);
-    border: 1px solid rgba(0,104,81,0.2);
-    color: var(--verde);
-    font-family: 'Jost', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    padding: 2px 9px;
-    border-radius: 2px;
-  }
 
   /* ===== FOOTER ===== */
   footer {
@@ -485,7 +511,7 @@
     main { padding: 20px; }
     .filter-area { padding: 0 20px; }
     .kpi-strip { grid-template-columns: 1fr 1fr; }
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
     .dash-title { font-size: 28px; }
     footer { padding: 20px; flex-direction: column; align-items: flex-start; }
   }
@@ -516,18 +542,33 @@
   </div>
   <div class="meta-block">
     <div class="date-now" id="data-hoje"></div>
-    <div id="meta-ufs">— UFs · Maio 2026</div>
+    <div id="meta-ufs">— UFs · Eleições 2026</div>
     <div id="meta-periodo">—</div>
   </div>
 </header>
 
 <!-- FILTROS -->
 <div class="filter-area">
+  <!-- Filtro de Data: mês + dia em dropdowns -->
   <div class="filter-row">
     <span class="filter-label">Data</span>
-    <div class="filter-pills" id="pills-data"></div>
+    <div class="date-filter-group">
+      <div class="select-wrapper">
+        <select id="sel-mes" class="filter-select" onchange="onMesChange()">
+          <option value="todos">Todos os meses</option>
+        </select>
+      </div>
+      <span class="date-sep" id="sep-dia" style="display:none">→</span>
+      <div class="select-wrapper" id="wrap-dia" style="display:none">
+        <select id="sel-dia" class="filter-select" onchange="onDiaChange()">
+          <option value="todos">Todos os dias</option>
+        </select>
+      </div>
+      <button class="btn-clear-date" id="btn-clear" onclick="clearDate()" style="display:none">✕ Limpar</button>
+    </div>
     <div class="filter-summary" id="filter-summary">Exibindo <strong id="total-filtrado">—</strong> registros</div>
   </div>
+  <!-- Filtro de Estado (pills) -->
   <div class="filter-row">
     <span class="filter-label">Estado</span>
     <div class="filter-pills" id="pills-uf"></div>
@@ -557,7 +598,7 @@
     <div class="kpi-cell">
       <div class="kpi-cell-label">Dias de Atendimento</div>
       <div class="kpi-cell-value" id="kpi-dias">—</div>
-      <div class="kpi-cell-note">dias úteis cobertos</div>
+      <div class="kpi-cell-note">dias cobertos</div>
     </div>
   </div>
 
@@ -622,10 +663,9 @@
 
   </div>
 
-  <!-- TEMAS + RECORRENTES -->
-  <div class="section-label">Temas e Recorrência</div>
-  <div class="grid-3">
-
+  <!-- TEMAS -->
+  <div class="section-label">Temas dos Atendimentos</div>
+  <div class="grid-full">
     <div class="chart-card">
       <div class="chart-header-row">
         <div>
@@ -636,23 +676,6 @@
       </div>
       <div class="cat-list" id="cat-list"></div>
     </div>
-
-    <div class="chart-card">
-      <div class="chart-header-row">
-        <div>
-          <div class="chart-title">Clientes Recorrentes</div>
-          <div class="chart-subtitle">Retornaram 2+ vezes no período</div>
-        </div>
-        <span class="chart-badge">Top 15</span>
-      </div>
-      <table class="rec-table">
-        <thead>
-          <tr><th>#</th><th>Nome</th><th>Ret.</th></tr>
-        </thead>
-        <tbody id="rec-tbody"></tbody>
-      </table>
-    </div>
-
   </div>
 
   <!-- GRÁFICO DE BARRAS UF -->
@@ -691,22 +714,12 @@
 
 <script>
 // ============================================================
-// CONFIGURAÇÃO — ÚNICA LINHA QUE VOCÊ PRECISA ALTERAR
+// CONFIGURAÇÃO
 // ============================================================
-// Cole aqui a URL de exportação CSV da sua planilha.
-// Como obter: Arquivo → Compartilhar → Publicar na Web
-//             → selecione a aba correta → formato CSV → Publicar
-//             → copie o link gerado
-//
-// Formato esperado: https://docs.google.com/spreadsheets/d/SEU_ID/pub?gid=NUMERO_DA_ABA&single=true&output=csv
-//
-// URLs definidas abaixo em SHEET_URLS
-
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
-
 // ============================================================
-// DADOS DE FALLBACK (embutidos — usados se a planilha não estiver publicada)
+// DADOS DE FALLBACK
 // ============================================================
 const FALLBACK_ROWS = [
   {uf:"DF",meio:"tel",nome:"Lucas Albuquerque",data:"2026-05-05",obs:""},
@@ -931,6 +944,7 @@ const FALLBACK_ROWS = [
   {uf:"PA",meio:"tel",nome:"Roberta Veiga",data:"2026-05-19",obs:"Dupla Filiação"},
   {uf:"RS",meio:"email",nome:"Felipe Pasetto Funez",data:"2026-05-19",obs:"Afastamento"},
 ];
+
 // ============================================================
 // ESTADO GLOBAL
 // ============================================================
@@ -938,8 +952,12 @@ let ROWS = [];
 let ALL_DATES = [];
 let DATE_LABELS = [];
 let ALL_UFS = [];
-let filtroData = 'todos';
-let filtroUF   = 'todos';
+
+// filtros
+let filtroMes = 'todos'; // 'todos' ou 'YYYY-MM'
+let filtroDia = 'todos'; // 'todos' ou 'YYYY-MM-DD'
+let filtroUF  = 'todos';
+
 let chartTemporal, chartMeio, chartUF;
 
 const VERDE        = '#006851';
@@ -949,22 +967,21 @@ const INK          = '#1a1a1a';
 const INK_MUTE     = '#8a8680';
 const LINE         = '#e5e0d5';
 
+// Nomes dos meses em pt-BR
+const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                  'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
 // ============================================================
 // PARSE CSV
 // ============================================================
 function parseCSV(text) {
   const lines = text.trim().split('\n');
   if (lines.length < 2) return [];
-
-  // Detecta o separador (vírgula ou ponto e vírgula)
   const header = lines[0];
   const sep = header.includes(';') ? ';' : ',';
-
   const cols = header.split(sep).map(c => c.trim().toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
     .replace(/[^a-z0-9]/g, ''));
-
-  // Mapeia nomes de colunas para os campos esperados
   const idx = {
     uf:   findCol(cols, ['uf','estado','state']),
     meio: findCol(cols, ['meio','canal','via','channel']),
@@ -972,27 +989,19 @@ function parseCSV(text) {
     data: findCol(cols, ['data','date','dia']),
     obs:  findCol(cols, ['obs','observacao','observacoes','observação','tema','assunto','subject'])
   };
-
   const rows = [];
   for (let i = 1; i < lines.length; i++) {
     const cells = splitCSVLine(lines[i], sep);
     if (!cells || cells.every(c => !c.trim())) continue;
-
     const uf   = (cells[idx.uf]   || '').trim().toUpperCase();
     const meio = (cells[idx.meio] || '').trim().toLowerCase();
     const nome = (cells[idx.nome] || '').trim();
     const raw  = (cells[idx.data] || '').trim();
     const obs  = (cells[idx.obs]  || '').trim();
-
     if (!uf && !nome) continue;
-
-    // Normaliza o meio para 'email' ou 'tel'
     const meioNorm = meio.includes('email') || meio.includes('e-mail') ? 'email' : 'tel';
-
-    // Normaliza a data para YYYY-MM-DD
     const data = parseDate(raw);
     if (!data) continue;
-
     rows.push({ uf, meio: meioNorm, nome, data, obs });
   }
   return rows;
@@ -1022,21 +1031,17 @@ function splitCSVLine(line, sep) {
 
 function parseDate(raw) {
   if (!raw) return null;
-  // Tenta YYYY-MM-DD
   if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
-  // Tenta DD/MM/YYYY
   const m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
-  // Tenta DD/MM/YY
   const m2 = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/);
   if (m2) return `20${m2[3]}-${m2[2].padStart(2,'0')}-${m2[1].padStart(2,'0')}`;
   return null;
 }
 
 // ============================================================
-// CARGA DE DADOS (fetch ao Google Sheets)
+// CARGA DE DADOS
 // ============================================================
-// URL de publicação CSV gerada pelo Google Sheets
 const SHEET_URLS = [
   'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVc-TI37Cx51sJCdR81d7WJxm8PBu3wV7XG9IsHZGIO2i-PnRLJ2nV35BP_4es-bfGt37FsrIfXwfd/pub?gid=1927118281&single=true&output=csv',
 ];
@@ -1045,66 +1050,43 @@ async function tryFetch(url) {
   const res = await fetch(url + '&cachebust=' + Date.now(), { cache: 'no-store' });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const text = await res.text();
-  // Verifica se retornou HTML de erro (login redirect) em vez de CSV
-  if (text.trim().startsWith('<')) throw new Error('Retornou HTML — planilha não pública');
+  if (text.trim().startsWith('<')) throw new Error('Retornou HTML');
   return text;
 }
 
 async function loadData() {
   let text = null;
-  let usedUrl = null;
-
   for (const url of SHEET_URLS) {
-    try {
-      text = await tryFetch(url);
-      usedUrl = url;
-      break;
-    } catch(e) {
-      console.warn('URL falhou:', url, e.message);
-    }
+    try { text = await tryFetch(url); break; }
+    catch(e) { console.warn('URL falhou:', url, e.message); }
   }
-
-  if (!text) {
-    console.warn('Todas as URLs falharam — usando dados locais');
-    usarFallback();
-    return;
-  }
-
+  if (!text) { usarFallback(); return; }
   try {
     const newRows = parseCSV(text);
-    if (!newRows.length) throw new Error('CSV vazio ou formato não reconhecido');
-
-    ROWS = newRows;
-    ALL_DATES = [...new Set(ROWS.map(r=>r.data))].sort();
-    DATE_LABELS = ALL_DATES.map(d => { const [,m,dy]=d.split('-'); return dy+'/'+m; });
-    ALL_UFS = [...new Set(ROWS.map(r=>r.uf))].sort();
-
-    const ufsCount = ALL_UFS.length;
-    const minDate = ALL_DATES[0] || '';
-    const maxDate = ALL_DATES[ALL_DATES.length-1] || '';
-    document.getElementById('meta-ufs').textContent = ufsCount + ' UFs · Maio 2026';
-    document.getElementById('meta-periodo').textContent = fmtDateBR(minDate) + ' – ' + fmtDateBR(maxDate);
-    document.getElementById('footer-period').innerHTML =
-      'Período · ' + fmtDateBR(minDate) + ' – ' + fmtDateBR(maxDate) +
-      '<br>' + ROWS.length + ' registros · ' + ufsCount + ' estados';
-
+    if (!newRows.length) throw new Error('CSV vazio');
+    initRows(newRows);
     document.getElementById('last-update').textContent =
       'Última atualização: ' + new Date().toLocaleTimeString('pt-BR');
     document.getElementById('last-update').style.color = '';
     document.querySelector('.live-dot').style.background = '';
     document.getElementById('error-banner').style.display = 'none';
     document.getElementById('loading-overlay').classList.add('hidden');
-
-    console.log('Dados carregados de:', usedUrl, '— Registros:', ROWS.length);
     update();
-  } catch(e) {
-    console.warn('Erro ao processar CSV:', e);
-    usarFallback();
-  }
+  } catch(e) { usarFallback(); }
 }
 
 function usarFallback() {
-  ROWS = FALLBACK_ROWS;
+  initRows(FALLBACK_ROWS);
+  document.getElementById('last-update').textContent = 'Dados locais (planilha não publicada ainda)';
+  document.getElementById('last-update').style.color = '#b06000';
+  document.querySelector('.live-dot').style.background = '#b06000';
+  document.getElementById('error-banner').style.display = 'none';
+  document.getElementById('loading-overlay').classList.add('hidden');
+  update();
+}
+
+function initRows(rows) {
+  ROWS = rows;
   ALL_DATES = [...new Set(ROWS.map(r=>r.data))].sort();
   DATE_LABELS = ALL_DATES.map(d => { const [,m,dy]=d.split('-'); return dy+'/'+m; });
   ALL_UFS = [...new Set(ROWS.map(r=>r.uf))].sort();
@@ -1112,19 +1094,11 @@ function usarFallback() {
   const ufsCount = ALL_UFS.length;
   const minDate = ALL_DATES[0] || '';
   const maxDate = ALL_DATES[ALL_DATES.length-1] || '';
-  document.getElementById('meta-ufs').textContent = ufsCount + ' UFs · Maio 2026';
+  document.getElementById('meta-ufs').textContent = ufsCount + ' UFs · Eleições 2026';
   document.getElementById('meta-periodo').textContent = fmtDateBR(minDate) + ' – ' + fmtDateBR(maxDate);
   document.getElementById('footer-period').innerHTML =
     'Período · ' + fmtDateBR(minDate) + ' – ' + fmtDateBR(maxDate) +
     '<br>' + ROWS.length + ' registros · ' + ufsCount + ' estados';
-
-  // Sinaliza que está usando dados locais
-  document.getElementById('last-update').textContent = 'Dados locais (planilha não publicada ainda)';
-  document.getElementById('last-update').style.color = '#b06000';
-  document.querySelector('.live-dot').style.background = '#b06000';
-  document.getElementById('error-banner').style.display = 'none';
-  document.getElementById('loading-overlay').classList.add('hidden');
-  update();
 }
 
 function fmtDateBR(iso) {
@@ -1138,8 +1112,9 @@ function fmtDateBR(iso) {
 // ============================================================
 function getFiltered() {
   return ROWS.filter(r => {
-    if (filtroData !== 'todos' && r.data !== filtroData) return false;
-    if (filtroUF   !== 'todos' && r.uf   !== filtroUF)   return false;
+    if (filtroMes !== 'todos' && !r.data.startsWith(filtroMes)) return false;
+    if (filtroDia !== 'todos' && r.data !== filtroDia) return false;
+    if (filtroUF  !== 'todos' && r.uf !== filtroUF) return false;
     return true;
   });
 }
@@ -1194,17 +1169,88 @@ function getRegiao(uf) {
 }
 
 // ============================================================
-// FILTRO PILLS
+// FILTRO DATA — DROPDOWNS
 // ============================================================
-function buildPills() {
-  const pData = document.getElementById('pills-data');
-  pData.innerHTML = '';
-  pData.appendChild(btn('Todos', 'todos', filtroData==='todos', () => setData('todos')));
-  ALL_DATES.forEach(d => {
-    const [,m,dy]=d.split('-');
-    pData.appendChild(btn(dy+'/'+m, d, filtroData===d, () => setData(d)));
+function buildDateDropdowns() {
+  const selMes = document.getElementById('sel-mes');
+  const selDia = document.getElementById('sel-dia');
+
+  // Coleta meses únicos presentes nos dados
+  const mesesSet = [...new Set(ALL_DATES.map(d => d.substring(0,7)))].sort();
+
+  // Reconstrói opções do mês (preserva seleção atual se ainda válida)
+  const prevMes = filtroMes;
+  selMes.innerHTML = '<option value="todos">Todos os meses</option>';
+  mesesSet.forEach(ym => {
+    const [y, m] = ym.split('-');
+    const label = MESES_PT[parseInt(m,10)-1] + ' ' + y;
+    const opt = document.createElement('option');
+    opt.value = ym;
+    opt.textContent = label;
+    if (ym === prevMes) opt.selected = true;
+    selMes.appendChild(opt);
   });
 
+  // Classe active no select de mês
+  selMes.className = 'filter-select' + (filtroMes !== 'todos' ? ' active' : '');
+
+  // Reconstrói opções do dia de acordo com mês selecionado
+  const wrapDia = document.getElementById('wrap-dia');
+  const sepDia  = document.getElementById('sep-dia');
+  const btnClear = document.getElementById('btn-clear');
+
+  if (filtroMes === 'todos') {
+    wrapDia.style.display = 'none';
+    sepDia.style.display  = 'none';
+    btnClear.style.display = 'none';
+    filtroDia = 'todos';
+  } else {
+    const diasDoMes = ALL_DATES.filter(d => d.startsWith(filtroMes)).sort();
+    const prevDia = filtroDia;
+    selDia.innerHTML = '<option value="todos">Todos os dias</option>';
+    diasDoMes.forEach(d => {
+      const [,, dy] = d.split('-');
+      const opt = document.createElement('option');
+      opt.value = d;
+      opt.textContent = dy + ' (' + fmtDiaSemana(d) + ')';
+      if (d === prevDia) opt.selected = true;
+      selDia.appendChild(opt);
+    });
+    selDia.className = 'filter-select' + (filtroDia !== 'todos' ? ' active' : '');
+    wrapDia.style.display = 'inline-flex';
+    sepDia.style.display  = 'inline';
+    btnClear.style.display = 'inline-block';
+  }
+}
+
+function fmtDiaSemana(iso) {
+  const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const d = new Date(iso + 'T12:00:00');
+  return dias[d.getDay()];
+}
+
+function onMesChange() {
+  filtroMes = document.getElementById('sel-mes').value;
+  filtroDia = 'todos';
+  update();
+}
+
+function onDiaChange() {
+  filtroDia = document.getElementById('sel-dia').value;
+  update();
+}
+
+function clearDate() {
+  filtroMes = 'todos';
+  filtroDia = 'todos';
+  document.getElementById('sel-mes').value = 'todos';
+  update();
+}
+
+// ============================================================
+// FILTRO UF (pills)
+// ============================================================
+function buildUFPills() {
   const pUF = document.getElementById('pills-uf');
   pUF.innerHTML = '';
   pUF.appendChild(btn('Todos', 'todos', filtroUF==='todos', () => setUF('todos')));
@@ -1221,8 +1267,7 @@ function btn(label, val, active, handler) {
   return b;
 }
 
-function setData(v) { filtroData = v; update(); }
-function setUF(v)   { filtroUF = v;   update(); }
+function setUF(v) { filtroUF = v; update(); }
 
 // ============================================================
 // KPIs
@@ -1264,7 +1309,6 @@ function renderMeio(rows) {
   const values = Object.values(byMeio);
   const total  = values.reduce((a,b)=>a+b,0);
   const cores  = [VERDE, PRATA];
-
   if (chartMeio) chartMeio.destroy();
   chartMeio = new Chart(document.getElementById('chartMeio').getContext('2d'), {
     type: 'doughnut',
@@ -1280,7 +1324,6 @@ function renderMeio(rows) {
       }
     }
   });
-
   const leg = document.getElementById('legend-meio');
   leg.innerHTML = '';
   labels.forEach((l,i) => {
@@ -1342,33 +1385,26 @@ function renderCategorias(rows) {
 }
 
 // ============================================================
-// RECORRENTES
-// ============================================================
-function renderRecorrentes(rows) {
-  const nc = countBy(rows, r=>r.nome.toLowerCase().trim());
-  const rec = Object.entries(nc).filter(([,v])=>v>1).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  const tb = document.getElementById('rec-tbody');
-  tb.innerHTML = '';
-  if (!rec.length) {
-    tb.innerHTML = '<tr><td colspan="3" style="color:var(--ink-mute);font-size:12px;padding-top:14px;font-style:italic">Nenhum cliente recorrente neste filtro.</td></tr>';
-    return;
-  }
-  rec.forEach(([nome,cnt],i) => {
-    const nf = nome.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-    tb.innerHTML += `<tr>
-      <td class="td-rank">${String(i+1).padStart(2,'0')}</td>
-      <td class="td-nome">${nf}</td>
-      <td><span class="badge-ret">${cnt}×</span></td>
-    </tr>`;
-  });
-}
-
-// ============================================================
 // CHART TEMPORAL
 // ============================================================
 function renderTemporal(rows) {
+  // Eixo temporal: se filtrando por mês, mostra apenas os dias desse mês;
+  // se filtrando por dia específico, mostra só aquele dia; senão todos.
+  let dates, labels;
+  if (filtroDia !== 'todos') {
+    dates  = [filtroDia];
+    const [,m,dy] = filtroDia.split('-');
+    labels = [dy+'/'+m];
+  } else if (filtroMes !== 'todos') {
+    dates  = ALL_DATES.filter(d=>d.startsWith(filtroMes));
+    labels = dates.map(d => { const [,m,dy]=d.split('-'); return dy+'/'+m; });
+  } else {
+    dates  = ALL_DATES;
+    labels = DATE_LABELS;
+  }
+
   const byDate = countBy(rows, r=>r.data);
-  const values = ALL_DATES.map(d=>byDate[d]||0);
+  const values = dates.map(d=>byDate[d]||0);
   const maxVal = Math.max(...values, 1);
 
   if (chartTemporal) chartTemporal.destroy();
@@ -1380,7 +1416,7 @@ function renderTemporal(rows) {
   chartTemporal = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: DATE_LABELS,
+      labels,
       datasets: [{
         data: values,
         borderColor: VERDE,
@@ -1419,7 +1455,6 @@ function renderChartUF(rows) {
   const sorted = Object.entries(byUF).sort((a,b)=>b[1]-a[1]);
   const labels = sorted.map(([k])=>k);
   const values = sorted.map(([,v])=>v);
-
   if (chartUF) chartUF.destroy();
   chartUF = new Chart(document.getElementById('chartUF').getContext('2d'), {
     type: 'bar',
@@ -1455,13 +1490,13 @@ function renderChartUF(rows) {
 // ============================================================
 function update() {
   const rows = getFiltered();
-  buildPills();
+  buildDateDropdowns();
+  buildUFPills();
   renderKPIs(rows);
   renderBarUF(rows);
   renderMeio(rows);
   renderRegioes(rows);
   renderCategorias(rows);
-  renderRecorrentes(rows);
   renderTemporal(rows);
   renderChartUF(rows);
 }
@@ -1475,7 +1510,6 @@ Chart.defaults.color = INK_MUTE;
 document.getElementById('data-hoje').textContent =
   new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
 
-// Carrega dados imediatamente e agenda auto-refresh
 loadData();
 setInterval(loadData, REFRESH_INTERVAL_MS);
 </script>
