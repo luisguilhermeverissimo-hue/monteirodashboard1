@@ -700,9 +700,8 @@
 //
 // Formato esperado: https://docs.google.com/spreadsheets/d/SEU_ID/pub?gid=NUMERO_DA_ABA&single=true&output=csv
 //
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?gid=1927118281&single=true&output=csv';
+// URLs definidas abaixo em SHEET_URLS
 
-// Intervalo de auto-atualização em milissegundos (padrão: 5 minutos)
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 
@@ -1037,24 +1036,57 @@ function parseDate(raw) {
 // ============================================================
 // CARGA DE DADOS (fetch ao Google Sheets)
 // ============================================================
+// URLs candidatas — tenta cada uma em ordem até uma funcionar
+const SHEET_URLS = [
+  // GID da aba conforme link de edição
+  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?gid=1927118281&single=true&output=csv',
+  // Primeira aba (gid=0) — caso a publicação tenha gerado outro gid
+  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?gid=0&single=true&output=csv',
+  // Sem gid — exporta a primeira aba publicada
+  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/pub?single=true&output=csv',
+  // Formato export alternativo
+  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/export?format=csv&gid=1927118281',
+  'https://docs.google.com/spreadsheets/d/11iAs0N5b4GnAhjWjjX0nf8RlNhM5DGY0EkOS0iCLAMM/export?format=csv',
+];
+
+async function tryFetch(url) {
+  const res = await fetch(url + '&cachebust=' + Date.now(), { cache: 'no-store' });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const text = await res.text();
+  // Verifica se retornou HTML de erro (login redirect) em vez de CSV
+  if (text.trim().startsWith('<')) throw new Error('Retornou HTML — planilha não pública');
+  return text;
+}
+
 async function loadData() {
+  let text = null;
+  let usedUrl = null;
+
+  for (const url of SHEET_URLS) {
+    try {
+      text = await tryFetch(url);
+      usedUrl = url;
+      break;
+    } catch(e) {
+      console.warn('URL falhou:', url, e.message);
+    }
+  }
+
+  if (!text) {
+    console.warn('Todas as URLs falharam — usando dados locais');
+    usarFallback();
+    return;
+  }
+
   try {
-    // Adiciona cache-bust para forçar dado fresco
-    const url = SHEET_CSV_URL + '&cachebust=' + Date.now();
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
     const newRows = parseCSV(text);
-    if (!newRows.length) throw new Error('Planilha vazia ou formato não reconhecido');
+    if (!newRows.length) throw new Error('CSV vazio ou formato não reconhecido');
 
     ROWS = newRows;
-
-    // Reconstrói índices dinâmicos
     ALL_DATES = [...new Set(ROWS.map(r=>r.data))].sort();
     DATE_LABELS = ALL_DATES.map(d => { const [,m,dy]=d.split('-'); return dy+'/'+m; });
     ALL_UFS = [...new Set(ROWS.map(r=>r.uf))].sort();
 
-    // Atualiza marcadores de meta no header/footer
     const ufsCount = ALL_UFS.length;
     const minDate = ALL_DATES[0] || '';
     const maxDate = ALL_DATES[ALL_DATES.length-1] || '';
@@ -1064,17 +1096,17 @@ async function loadData() {
       'Período · ' + fmtDateBR(minDate) + ' – ' + fmtDateBR(maxDate) +
       '<br>' + ROWS.length + ' registros · ' + ufsCount + ' estados';
 
-    // Marca hora da última atualização
     document.getElementById('last-update').textContent =
       'Última atualização: ' + new Date().toLocaleTimeString('pt-BR');
-
-    // Esconde overlay
+    document.getElementById('last-update').style.color = '';
+    document.querySelector('.live-dot').style.background = '';
     document.getElementById('error-banner').style.display = 'none';
     document.getElementById('loading-overlay').classList.add('hidden');
 
+    console.log('Dados carregados de:', usedUrl, '— Registros:', ROWS.length);
     update();
   } catch(e) {
-    console.warn('Planilha ao vivo indisponível, usando dados locais:', e);
+    console.warn('Erro ao processar CSV:', e);
     usarFallback();
   }
 }
